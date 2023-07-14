@@ -22,23 +22,23 @@ public class WeatherService {
      *
      * @param sensorId   The ID of the sensor.
      * @param metrics    The list of metric types to include in the query.
-     * @param statistics  The statistic to calculate (e.g., average, minimum, maximum, sum).
+     * @param statistics The statistic to calculate (e.g., average, minimum, maximum, sum).
      * @param startDate  The start date of the date range for filtering (optional).
      * @param endDate    The end date of the date range for filtering (optional).
      * @return The list of sensor metric DTOs representing the queried data.
      */
-    public List<WeatherMetricsDTO> querySensorData(String sensorId, List<String> metrics, String statistics,LocalDateTime startDate, LocalDateTime endDate) {
+    public List<WeatherMetricsDTO> querySensorData(String sensorId, List<String> metrics, String statistics, LocalDateTime startDate, LocalDateTime endDate) {
 
-        List<WeatherSensorMetric> queriedData = weatherSensorRepository.findByCriteria(sensorId,metrics,startDate,endDate);
+        List<WeatherSensorMetric> queriedData = weatherSensorRepository.findBySensorIdAndMetricTypeInAndTimestampBetween(sensorId, metrics, startDate, endDate);
 
         List<WeatherMetricsDTO> result = new ArrayList<>();
 
-        for(String metric: metrics) {
-            List<Integer> metricValues =  filterMetricValuesByType(queriedData, metric);
+        for (String metric : metrics) {
+            List<Integer> metricValues = filterMetricValuesByType(queriedData, metric);
 
             List<Double> convertedDoubleList = new ArrayList<>();
 
-            for(Integer integer: metricValues){
+            for (Integer integer : metricValues) {
                 double convertedValues = integer.doubleValue();
                 convertedDoubleList.add(convertedValues);
             }
@@ -46,12 +46,12 @@ public class WeatherService {
             WeatherMetricsDTO weatherMetricsDTO = new WeatherMetricsDTO();
             weatherMetricsDTO.setMetricType(metric);
 
-            if(convertedDoubleList.isEmpty()) {
+            if (convertedDoubleList.isEmpty()) {
                 weatherMetricsDTO.setAverage(0.0);
                 weatherMetricsDTO.setMaximum(0.0);
                 weatherMetricsDTO.setMinimum(0.0);
                 weatherMetricsDTO.setSum(0.0);
-            }else{
+            } else {
 
                 switch (statistics) {
                     case "sum" -> weatherMetricsDTO.setSum(calculateSum(convertedDoubleList));
@@ -79,7 +79,7 @@ public class WeatherService {
      * Filters Metric values based on the metric type
      *
      * @param queriedData List of sensor metrics to filter
-     * @param metricType The metric type to filter by
+     * @param metricType  The metric type to filter by
      * @return The list of filtered metric values
      */
     private List<Integer> filterMetricValuesByType(List<WeatherSensorMetric> queriedData, String metricType) {

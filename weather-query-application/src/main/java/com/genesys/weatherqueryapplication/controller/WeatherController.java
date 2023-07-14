@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/sensorMetric")
+@RequestMapping("/api/sensorMetric")
 public class WeatherController {
 
     @Autowired

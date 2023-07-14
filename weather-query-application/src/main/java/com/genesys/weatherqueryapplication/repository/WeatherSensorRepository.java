@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface WeatherSensorRepository extends JpaRepository<WeatherSensorMetric, Long> {
 
-    List<WeatherSensorMetric> findBySensorId(String sensorId);
-
-    List<WeatherSensorMetric> findByCriteria(String sensorId, List<String> metrics, LocalDateTime startDate, LocalDateTime endDate);
+    List<WeatherSensorMetric> findBySensorIdAndMetricTypeInAndTimestampBetween(String sensorId, List<String> metrics, LocalDateTime startDate, LocalDateTime endDate);
 }
+
