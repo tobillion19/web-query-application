@@ -6,14 +6,17 @@ import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Column;
 import jakarta.persistence.GenerationType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "weather_sensor_metric")
 public class WeatherSensorMetric {
@@ -25,6 +28,13 @@ public class WeatherSensorMetric {
     @Column(name = "id")
     @NotNull
     private Long id;
+
+    public WeatherSensorMetric(String sensorId, String metricType, int metricValue, Timestamp timestamp) {
+        this.sensorId = sensorId;
+        this.metricType = metricType;
+        this.metricValue = metricValue;
+        this.timestamp = timestamp;
+    }
 
     @Getter
     @Setter
@@ -45,7 +55,5 @@ public class WeatherSensorMetric {
     @Setter
     @Column(name = "timestamp")
     public Timestamp timestamp;
-
-
 
 }
