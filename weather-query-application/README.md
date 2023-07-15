@@ -53,7 +53,7 @@ The service will be accessible at http://localhost:8080.
       statistic: The statistic to calculate (average, minimum, maximum, sum)
       startDate: Start date of the date range (optional, ISO 8601 format)
       endDate: End date of the date range (optional, ISO 8601 format)
-  * Response: JSON array of SensorMetricDTO objects
+  * Response: JSON array of WeatherMetricsDTO objects
 
 **Testing**
     
