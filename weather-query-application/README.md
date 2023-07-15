@@ -1,44 +1,50 @@
-Weather Data Service
+**Weather Data Service**
+
 The Weather Data Service is a REST API that handles weather sensor data. It allows you to store sensor metrics such as temperature, humidity, and wind speed, and perform queries on the stored data.
 
-Features
-    * Create sensor metrics by sending HTTP POST requests to the /api/sensorMetric/addMetric endpoint.
-    * Query sensor data by sending HTTP GET requests to the /api/sensorMetric/queryMetrics endpoint with various parameters.
-    * Retrieve average, minimum, maximum, or sum statistics for selected metrics within a specific date range.
+*Features*
+* Create sensor metrics by sending HTTP POST requests to the /api/sensorMetric/addMetric endpoint.
+* Query sensor data by sending HTTP GET requests to the /api/sensorMetric/queryMetrics endpoint with various parameters.
+* Retrieve average, minimum, maximum, or sum statistics for selected metrics within a specific date range.
 
-Technologies Used
-    * Java
-    * Spring Boot
-    * Spring Data JPA
-    * Spring Web
-    * H2 Database (in-memory)
-    * JUnit 5 for testing
-    * Mockito for mocking dependencies
+*Technologies Used*
+* Java
+* Spring Boot
+* Spring Data JPA
+* Spring Web
+* H2 Database (in-memory)
+* JUnit 5 for testing
+* Mockito for mocking dependencies
 
-Getting Started
+**Getting Started**
+
 To run the Weather Query Service on your local machine, follow these steps:
 
-Clone the repository: git clone <repository-url>
-Navigate to the project directory: cd weather-query-application
-Build the application: ./mvnw clean install
-Run the application: ./mvnw spring-boot:run
+1. Clone the repository: git clone <repository-url>
+2. Navigate to the project directory: cd weather-query-application
+3. Build the application: ./mvnw clean install
+4. Run the application: ./mvnw spring-boot:run
+
 The service will be accessible at http://localhost:8080.
 
-API Endpoints
-    Add Sensor Metric
-    URL: /api/sensorMetric/addMetric
-    Method: POST
-    Request Body:
+**API Endpoints**
+    *Add Sensor Metric*
+* URL: /api/sensorMetric/addMetric
+* Method: POST
+* Request Body:
+`
     {
       "sensorId": "sensor1",
       "metricType": "temperature",
       "metricValue": 25.5,
       "timestamp": "2023-07-14T10:30:00"
-    }
+    } 
+`
 
-Response: HTTP 200 OK
+* Response: HTTP 200 OK
 
-Query Sensor Data
+**Query Sensor Data**
+
   *  URL: /api/sensorMetric/queryMetrics
   *  Method: GET
     *  Query Parameters:
@@ -49,7 +55,7 @@ Query Sensor Data
       endDate: End date of the date range (optional, ISO 8601 format)
   * Response: JSON array of SensorMetricDTO objects
 
-Testing
+**Testing**
     
  The Weather Data Service includes JUnit tests to ensure the correctness of its functionality. To run the tests, use the following command:
     
