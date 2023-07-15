@@ -18,6 +18,16 @@ public class WeatherService {
     private WeatherSensorRepository weatherSensorRepository;
 
     /**
+     * Method to create new Sensor Metric entry
+     *
+     * @param weatherSensorMetric - Object containing
+     *
+     * */
+    public void createSensorMetric(WeatherSensorMetric weatherSensorMetric) {
+        weatherSensorRepository.save(weatherSensorMetric);
+    }
+
+    /**
      * Queries sensor data based on specified criteria.
      *
      * @param sensorId   The ID of the sensor.
@@ -146,6 +156,8 @@ public class WeatherService {
                 .mapToDouble(Double::doubleValue)
                 .sum();
     }
+
+
 
 
 }

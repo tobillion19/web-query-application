@@ -9,6 +9,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class WeatherMetricsDTO {
 
+    public WeatherMetricsDTO(String sensorId, String metricType, double value) {
+        this.sensorId = sensorId;
+        this.metricType = metricType;
+        this.value = value;
+    }
+
     @Getter
     @Setter
     private String sensorId;

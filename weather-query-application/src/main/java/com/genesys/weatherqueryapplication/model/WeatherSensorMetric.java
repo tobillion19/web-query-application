@@ -13,7 +13,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor

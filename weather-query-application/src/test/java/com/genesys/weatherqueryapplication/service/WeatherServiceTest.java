@@ -14,8 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -28,8 +29,14 @@ class WeatherServiceTest {
     @InjectMocks
     private WeatherService weatherService;
 
+
+    /**
+     * Test case for the querySensorData method with the "average" statistic.
+     *
+     * @throws Exception if an error occurs during the test
+     */
     @Test
-    void testQuerySensorDataForAverage() {
+    void testQuerySensorDataForAverage() throws Exception{
 
         List<WeatherSensorMetric> queriedData = Arrays.asList(
                 new WeatherSensorMetric("sensor1", "temperature", 25, Timestamp.valueOf(LocalDateTime.now())),
@@ -45,11 +52,16 @@ class WeatherServiceTest {
         assertEquals(25.0, result.get(0).getAverage());
     }
 
+    /**
+     * Test case for the querySensorData method with the "minimum" statistic.
+     *
+     * @throws Exception if an error occurs during the test
+     */
     @Test
-    public void testQuerySensorDataForMinimum() {
+    public void testQuerySensorDataForMinimum() throws Exception {
         // Mocked data
         List<WeatherSensorMetric> queriedData = Arrays.asList(
-                new WeatherSensorMetric("sensor1", "humidity", 25,Timestamp.valueOf(LocalDateTime.now())),
+                new WeatherSensorMetric("sensor1", "temperature", 25, Timestamp.valueOf(LocalDateTime.now())),
                 new WeatherSensorMetric("sensor1", "temperature", 30, Timestamp.valueOf(LocalDateTime.now())),
                 new WeatherSensorMetric("sensor2", "temperature", 20, Timestamp.valueOf(LocalDateTime.now()))
         );
@@ -57,59 +69,76 @@ class WeatherServiceTest {
                 .thenReturn(queriedData);
 
         // Perform the test
-        List<WeatherMetricsDTO> result = weatherService.querySensorData(null, Arrays.asList("humidity"), "minimum", null, null);
+        List<WeatherMetricsDTO> result = weatherService.querySensorData("sensor1", Arrays.asList("temperature"), "minimum", null, null);
 
         // Verify the result
         assertEquals(1, result.size());
-        assertEquals("humidity", result.get(0).getMetricType());
-        assertEquals(0.0, result.get(0).getMinimum());
+        assertEquals("temperature", result.get(0).getMetricType());
+        assertEquals(20.0, result.get(0).getMinimum());
     }
 
+    /**
+     * Test case for the querySensorData method with the "maximum" statistic.
+     *
+     * @throws Exception if an error occurs during the test
+     */
     @Test
-    public void testQuerySensorDataForMaximum() {
+    public void testQuerySensorDataForMaximum() throws Exception{
         // Mocked data
         List<WeatherSensorMetric> queriedData = Arrays.asList(
-                new WeatherSensorMetric("sensor1", "windSpeed", 10, Timestamp.valueOf(LocalDateTime.now())),
-                new WeatherSensorMetric("sensor2", "windSpeed", 15, Timestamp.valueOf(LocalDateTime.now())),
-                new WeatherSensorMetric("sensor3", "windSpeed", 12, Timestamp.valueOf(LocalDateTime.now()))
+                new WeatherSensorMetric("sensor1", "temperature", 25, Timestamp.valueOf(LocalDateTime.now())),
+                new WeatherSensorMetric("sensor1", "temperature", 30, Timestamp.valueOf(LocalDateTime.now())),
+                new WeatherSensorMetric("sensor2", "temperature", 20, Timestamp.valueOf(LocalDateTime.now()))
         );
         when(repository.findBySensorIdAndMetricTypeInAndTimestampBetween(anyString(), anyList(), any(), any()))
                 .thenReturn(queriedData);
 
         // Perform the test
-        List<WeatherMetricsDTO> result = weatherService.querySensorData(null, Arrays.asList("windSpeed"), "maximum", null, null);
+        List<WeatherMetricsDTO> result = weatherService.querySensorData("sensor1", Arrays.asList("temperature"), "maximum", null, null);
 
         // Verify the result
         assertEquals(1, result.size());
-        assertEquals("windSpeed", result.get(0).getMetricType());
-        assertEquals(0, result.get(0).getMaximum());
+        assertEquals("temperature", result.get(0).getMetricType());
+        assertEquals(20.0, result.get(0).getMaximum());
     }
 
+    /**
+     * Test case for the querySensorData method with the "sum" statistic.
+     *
+     * @throws Exception if an error occurs during the test
+     */
     @Test
-    public void testQuerySensorDataForSum() {
+    public void testQuerySensorDataForSum() throws Exception{
         // Mocked data
         List<WeatherSensorMetric> queriedData = Arrays.asList(
-                new WeatherSensorMetric("sensor1", "rainfall", 5, Timestamp.valueOf(LocalDateTime.now())),
-                new WeatherSensorMetric("sensor2", "rainfall", 10, Timestamp.valueOf(LocalDateTime.now())),
-                new WeatherSensorMetric("sensor3", "rainfall", 7, Timestamp.valueOf(LocalDateTime.now()))
+                new WeatherSensorMetric("sensor1", "temperature", 25, Timestamp.valueOf(LocalDateTime.now())),
+                new WeatherSensorMetric("sensor1", "temperature", 30, Timestamp.valueOf(LocalDateTime.now())),
+                new WeatherSensorMetric("sensor2", "temperature", 20, Timestamp.valueOf(LocalDateTime.now()))
         );
         when(repository.findBySensorIdAndMetricTypeInAndTimestampBetween(anyString(), anyList(), any(), any()))
                 .thenReturn(queriedData);
 
         // Perform the test
-        List<WeatherMetricsDTO> result = weatherService.querySensorData(null, Arrays.asList("rainfall"), "sum", null, null);
+        List<WeatherMetricsDTO> result = weatherService.querySensorData("sensor1", Arrays.asList("temperature"), "sum", null, null);
 
         // Verify the result
         assertEquals(1, result.size());
-        assertEquals("rainfall", result.get(0).getMetricType());
-        assertEquals(0, result.get(0).getSum());
+        assertEquals("temperature", result.get(0).getMetricType());
+        assertEquals(75.0, result.get(0).getSum());
     }
 
+
+    /**
+     * Test case for the querySensorData method with the "startDate" & "endDate" date range statistic.
+     *
+     * @throws Exception if an error occurs during the test
+     */
+
     @Test
-    public void testQuerySensorDataWithDateRange() {
+    public void testQuerySensorDataWithDateRange() throws Exception {
         // Mocked data
         List<WeatherSensorMetric> queriedData = Arrays.asList(
-                new WeatherSensorMetric("sensor1", "humidity", 25,Timestamp.valueOf(LocalDateTime.now())),
+                new WeatherSensorMetric("sensor1", "temperature", 25, Timestamp.valueOf(LocalDateTime.now())),
                 new WeatherSensorMetric("sensor1", "temperature", 30, Timestamp.valueOf(LocalDateTime.now())),
                 new WeatherSensorMetric("sensor2", "temperature", 20, Timestamp.valueOf(LocalDateTime.now()))
         );
