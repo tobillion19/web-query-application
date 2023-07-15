@@ -7,7 +7,6 @@ Features
     * Retrieve average, minimum, maximum, or sum statistics for selected metrics within a specific date range.
 
 Technologies Used
-
     * Java
     * Spring Boot
     * Spring Data JPA
@@ -40,13 +39,21 @@ API Endpoints
 Response: HTTP 200 OK
 
 Query Sensor Data
+  *  URL: /api/sensorMetric/queryMetrics
+  *  Method: GET
+    *  Query Parameters:
+      sensorId: Filter by sensor ID (optional)
+      metrics: Filter by metric type(s) (optional, comma-separated values)
+      statistic: The statistic to calculate (average, minimum, maximum, sum)
+      startDate: Start date of the date range (optional, ISO 8601 format)
+      endDate: End date of the date range (optional, ISO 8601 format)
+  * Response: JSON array of SensorMetricDTO objects
 
-    URL: /api/sensorMetric/queryMetrics
-    Method: GET
-    Query Parameters:
-    sensorId: Filter by sensor ID (optional)
-    metrics: Filter by metric type(s) (optional, comma-separated values)
-    statistic: The statistic to calculate (average, minimum, maximum, sum)
-    startDate: Start date of the date range (optional, ISO 8601 format)
-    endDate: End date of the date range (optional, ISO 8601 format)
-    Response: JSON array of SensorMetricDTO objects
+Testing
+    
+ The Weather Data Service includes JUnit tests to ensure the correctness of its functionality. To run the tests, use the following command:
+    
+    ./mvnw test
+
+
+
